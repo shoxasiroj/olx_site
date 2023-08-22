@@ -1,0 +1,83 @@
+{% load bootstrap4 %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{% block title %}Главная{% endblock %} - Доска объявлений</title>
+        {% bootstrap_css %}
+        <link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}">
+        {% bootstrap_javascript jquery='slim' %}
+    </head>
+    <body class="container-fluid">
+        <header class="mb-4">
+            <h1 class="display-1 text-center">Объявления</h1>
+        </header>
+       <div class="row">
+            <ul class="col nav justify-content-end border">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'register' %}">Регистрация</a>
+                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown"
+                    href="#" role="button" aria-haspopup="true" aria-expanded=" false">Пpoфиль</a>
+                    <div class="dropdown-menu">
+                    <a class="dropdown-item" href="{% url 'profile' %}">Moи
+                    объявления</a>
+                    <a class="dropdown-item" href="{% url 'user_change' %}">Изменить личные данные</a>
+                    <a class="dropdown-item" href= "{% url 'password_change' %}" >Изменить
+                    пароль </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'logout' %}">Выйти</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{% url 'user_delete' %}">Удалить</a> </div>
+                    </li>
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Bxoд</a></li>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="row">
+            <nav class="col-md-auto nav flex-column border">
+                <a href="{% url 'index' %}" class="nav-link root">
+                    Главная
+                </a>
+                <a href="{% url 'other' page='about' %}" class="nav-link root">about</a>
+                <a href="{% url 'other' page='contacts' %}" class="nav-link root">kontaktlar</a>
+                <span class="nav-link root font-weight-bold">
+                    Недвижимость
+                </span>
+                <a href="#" class="nav-link">
+                    Квартиры
+                </a>
+                <a href="#" class="nav-link">
+                    Склад
+                </a>
+                <a href="#" class="nav-link">
+                    Гараж
+                </a>
+                <span class="nav-link root font-weight-bold" href="#">
+                    Транспорт
+                </span>
+                <a href="#" class="nav-link">
+                    Легковой
+                </a>
+                <a href="#" class="nav-link">
+                    Грузовой
+                </a>
+            </nav>
+
+            <section class="col border py-2">
+                {% bootstrap_messages %}
+                {% block content %}
+                {% endblock %}
+            </section>
+        </div>
+        <footer class="mt-3">
+            <p class="text-right font-italic">&copy;</p>
+        </footer>
+    </body>
+</html>

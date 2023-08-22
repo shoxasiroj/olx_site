@@ -1,0 +1,10 @@
+{% extends 'layout/basic.html' %}
+{% load bootstrap4 %}
+
+{% block content %}
+<h1>Akkauntni o`chirish</h1>
+<form method="post">
+    {% csrf_token %}
+    {% buttons submit='O`chirish' %}{% endbuttons %}
+</form>
+{% endblock content %}

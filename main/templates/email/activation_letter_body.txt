@@ -1,0 +1,6 @@
+Hurmatli {{ user.username }}
+olx sayti registratsiya yakunlashingiz uchun
+quyidagi ilovani oching
+{{ host }}{% url 'register_activate' sign=sign %}
+rahmat
+Hurmat bilan Shaxobiddin
