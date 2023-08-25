@@ -9,6 +9,8 @@ django-bootstrap4 = "*"
 psycopg2 = "*"
 bootstrap4 = "*"
 python-decouple = "*"
+easy-thumbnails = "*"
+django-cleanup = "*"
 
 [dev-packages]
 
