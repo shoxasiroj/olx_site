@@ -1,0 +1,36 @@
+{% extends 'layout/basic.html' %}
+{% load bootstrap4 %}
+{% block title %}{{ elon.title }}-{{ elon.category.name }}{% endblock title %}
+
+{% block content %}
+
+  <div class="container-fluid mt-3">
+    <div class="row">
+      {% if elon.image %}
+      <div class="col-md-auto">
+        <img src="{{ elon.image.url }}" class="main-image" alt="{{ elon.title }}">
+      </div>
+      {% endif %}
+      <div class="col">
+        <h2>{{ elon.title }}</h2>
+        <p>{{ elon.body }}</p>
+        <p class="font-weight-bold">
+          {{ elon.price }}$
+        </p>
+        <p class="text-right  font-italic">
+          E`lon {{ elon.created_at }} da qo`yildi
+        </p>
+      </div>
+    </div>
+  </div>
+{% if addimages %}
+<div class="d-flex justify-content-between flex-wrap mt-5">
+  {% for im in addimages %}
+    <div>
+      <img src="{{ im.image.url }}" class="additional-image" alt="{{ im.image }}">
+    </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% endblock content %}

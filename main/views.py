@@ -15,10 +15,13 @@ from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from .models import AdvUser
 from .forms import ChangeUserForm, RegisterUserForm
 from .utilities import signer
+from elon.models import Elon
 
 
 def index(request):
-    return render(request, 'main/index.html')
+    elonlar = Elon.objects.filter(is_active=True)[:10]
+    context = {'elonlar': elonlar}
+    return render(request, 'main/index.html', context)
 
 
 @login_required

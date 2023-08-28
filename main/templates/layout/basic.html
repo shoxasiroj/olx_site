@@ -55,7 +55,7 @@
                               {{ category.parent_category.name }}
                         </span>
                     {% endifchanged %}
-                    <a href="#" class="nav-link">
+                    <a href="{% url 'by_categories' pk=category.pk %}" class="nav-link">
                         {{ category.name }}
                     </a>
                 {% endfor %}

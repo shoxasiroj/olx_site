@@ -1,0 +1,46 @@
+{% extends "layout/basic.html" %}
+
+{% load thumbnail %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block title %}{{ category }}{% endblock %}
+
+{% block searchform %}
+{% endblock %}
+
+{% block content %}
+<h2 class="mb-2">{{ category }}</h2>
+<div class="container-fluid mb-2">
+    <div class="row">
+        <div class="col">&nbsp;</div>
+        <form class="col-md-auto form-inline">
+            {% bootstrap_form form show_label=False %}
+            {% bootstrap_button content='qidirish' button_type='submit' %}
+        </form>
+    </div>
+</div>
+{% if elonlar %}
+<ul class="list-unstyled">
+    {% for elon in elonlar %}
+    <li class="media my-5 p-3 border">
+        {% url 'detail' category_pk=category.pk pk=elon.pk as url %}
+        <a href="{{ url }}{{ all }}">
+        {% if elon.image %}
+        <img class="mr-3" src="{% thumbnail elon.image 'default' %}">
+        {% else %}
+        <img class="mr-3" src="https://placehold.co/600x400/EEE/31343C">
+        {% endif %}
+        </a>
+        <div class="media-body">
+          <h3><a href="{{ url }}{{ all }}">{{ elon.title }}</a></h3>
+          <div>{{ elon.content }}</div>
+          <p class="text-right font-weight-bold">{{ elon.price }} sum.</p>
+          <p class="text-right font-italic">{{ elon.created_at }}</p>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% bootstrap_pagination page url=keyword %}
+{% endif %}
+{% endblock %}
