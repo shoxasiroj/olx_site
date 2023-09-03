@@ -33,9 +33,11 @@ INSTALLED_APPS = [
     'main.apps.MainConfig',
     'category.apps.CategoryConfig',
     'elon.apps.ElonConfig',
+    'comment.apps.CommentConfig',
     'bootstrap4',
     'django_cleanup',
     'easy_thumbnails',
+    'captcha',
 
     'django.contrib.admin',
     'django.contrib.auth',

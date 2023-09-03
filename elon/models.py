@@ -16,7 +16,7 @@ class Elon(models.Model):
     category = models.ForeignKey(ChildCategory, on_delete=models.CASCADE, null=True, blank=True,
                                  verbose_name='Elon category')
     title = models.CharField(max_length=155, verbose_name='Elonning nomi')
-    body = models.TextField(verbose_name='Elonning contente')
+    body = models.TextField(verbose_name='Elonning contenti')
     price = models.FloatField(blank=True, null=True, verbose_name='Narxi')
     country_code = models.CharField(max_length=5, choices=COUNTRY_CHOICES)
     image = models.ImageField(upload_to=get_timed_path, blank=True, verbose_name='rasm')

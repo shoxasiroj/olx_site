@@ -17,3 +17,15 @@ def sent_activation_letter(user):
     body = render_to_string('email/activation_letter_body.txt', context)
     user.email_user(subject, body)
 
+
+def sent_comment_notification(comment):
+    if ALLOWED_HOSTS:
+        host = 'http://' + ALLOWED_HOSTS[0]
+    else:
+        host = 'http://localhost:8000'
+    author = comment.elon.author
+    context = {'author': author, 'host': host, 'comment': comment}
+
+    subject = render_to_string('email/new_comment_letter_subject.txt', context)
+    body = render_to_string('email/new_comment_letter_body.txt', context)
+    author.email_user(subject, body)

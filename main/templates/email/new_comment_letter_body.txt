@@ -1,0 +1,5 @@
+Hurmatli {{ user.username }}
+sizning e`loonlaringiz birida comment qoldirildi.
+Commentni o`qish uchun ushbu ilova ustiga bosing:
+{{ host }}{% url 'profile_detail_elonlar' pk=comment.elon.pk %}
+Hayr

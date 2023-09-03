@@ -8,6 +8,7 @@ urlpatterns = [
     path('', include('elon.urls')),
     path('', include('category.urls')),
     path('', include('main.urls')),
+    path('captcha/', include('captcha.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

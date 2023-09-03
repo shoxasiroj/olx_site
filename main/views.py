@@ -6,7 +6,7 @@ from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.core.signing import BadSignature
 from django.http import Http404, HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.template import TemplateDoesNotExist
 from django.template.loader import get_template
 from django.urls import reverse_lazy
@@ -16,6 +16,8 @@ from .models import AdvUser
 from .forms import ChangeUserForm, RegisterUserForm
 from .utilities import signer
 from elon.models import Elon
+from elon.forms import ElonCreateForm, AdditionalImageFormSet
+from comment.models import Comment
 
 
 def index(request):
@@ -26,7 +28,22 @@ def index(request):
 
 @login_required
 def profile(request):
-    return render(request, 'main/profile.html')
+    elonlar = Elon.objects.filter(author=request.user.pk) # faqatgina uziga tegishli elonlarni olish
+    context = {'elonlar': elonlar}
+    return render(request, 'main/profile.html', context)
+
+
+# Biron bir elonnni ustiga bosgan vaqtimisz bizga tegishli elon haqidagi sahifaga utishimiz uchun
+def profile_detail_elonlar(request, pk):
+    elon = get_object_or_404(Elon, pk=pk)
+    addimages = elon.additionalimage_set.all()
+    comments = Comment.objects.filter(elon=pk, is_active=True)
+    context = {
+        'elon': elon,
+        'addimages': addimages,
+        'comments': comments,
+    }
+    return render(request, 'main/profile_detail_pk.html', context)
 
 
 def other_page(request, page):
@@ -120,7 +137,57 @@ def user_activate(request, sign):
         user.save()
     return render(request, template)
 
+@login_required
+def profile_elon_create(request):
+    if request.method == 'POST':
+        form = ElonCreateForm(request.POST, request.FILES)
+        if form.is_valid():
+            elon = form.save()
+            formset = AdditionalImageFormSet(request.POST, request.FILES, instance=elon)
+            if formset.is_valid():
+                formset.save()
+                messages.add_message(request, messages.SUCCESS, 'Elon muvoffaqiyatli yaratildi')
+                return redirect('profile')
+    else:
+        form = ElonCreateForm(initial={'author': request.user.pk})
+        formset = AdditionalImageFormSet()
+    context = {
+        'form': form,
+        'formset': formset
+    }
+    return render(request, 'main/create_elon.html', context)
+
+@login_required
+def profile_elon_change(request, pk):
+    elon = get_object_or_404(Elon, pk=pk)
+    if request.method == 'POST':
+        form = ElonCreateForm(request.POST, request.FILES, instance=elon)
+        if form.is_valid():
+            elon = form.save()
+            formset = AdditionalImageFormSet(request.POST, request.FILES, instance=elon)
+            if formset.is_valid():
+                formset.save()
+                messages.add_message(request, messages.SUCCESS, 'Elon muvoffaqiyatli o`zgartirildi')
+                return redirect('profile')
+    else:
+        form = ElonCreateForm(instance=elon)
+        formset = AdditionalImageFormSet(instance=elon)
+    context = {
+        'form': form,
+        'formset': formset
+    }
+    return render(request, 'main/update_elon.html', context)
 
 
-
-
+@login_required
+def profile_elon_delete(request, pk):
+    elon = get_object_or_404(Elon, pk=pk)
+    if request.method == 'POST':
+        elon.delete()
+        messages.add_message(request, messages.SUCCESS, 'Elon o`chirildi')
+        return redirect('profile')
+    else:
+        context = {
+            'elon': elon
+        }
+    return render(request, 'main/delete_elon.html', context)

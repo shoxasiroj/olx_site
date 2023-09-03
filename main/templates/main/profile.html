@@ -1,5 +1,34 @@
 {% extends 'layout/basic.html' %}
-
+{% load thumbnail %}
 {% block content %}
 <h1>{{ user.username }} ning profili</h1>
+<p><a href="{% url 'profile_elon_create' %}">E`lon qo`shish</a></p>
+{% if elonlar %}
+<h3>Sizning e'lonlaringiz</h3>
+<ul class="list-unstyled">
+    {% for elon in elonlar %}
+    <li class="media my-5 p-3 border">
+        {% url 'profile_detail_elonlar' pk=elon.pk as url %}
+        <a href="{{ url }}">
+        {% if elon.image %}
+        <img class="mr-3" src="{% thumbnail elon.image 'default' %}">
+        {% else %}
+        <img class="mr-3" src="https://placehold.co/600x400/EEE/31343C">
+        {% endif %}
+        </a>
+        <div class="media-body">
+            <p>Рубрика: {{ elon.category }}</p>
+            <h3><a href="{{ url }}">{{ elon.title }}</a></h3>
+            <div>{{ elon.content }}</div>
+            <p class="text-right font-weight-bold">{{ elon.price }} руб.</p>
+            <p class="text-right font-italic">{{ elon.created_at }}</p>
+            <p class="text-right mt-2">
+                <a href="{% url 'profile_elon_update' pk=elon.pk %}">O'zgartirish</a>
+                <a href="{% url 'profile_elon_delete' pk=elon.pk %}">O'chirish</a>
+            </p>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}
 {% endblock content %}

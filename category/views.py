@@ -6,6 +6,7 @@ from elon.forms import SearchForm
 from elon.models import Elon
 
 
+# hammas templatesga categories keyword all ni yo`borish uchun
 def olx_context_processor(request):
     context = {}
     context['categories'] = ChildCategory.objects.all()
@@ -26,6 +27,8 @@ def olx_context_processor(request):
 
     return context
 
+
+# Categoryni bosgan vaqtimiz misol uydi bossak faqat uy chiqishi uchun
 def by_categories(request, pk):
     category = get_object_or_404(ChildCategory, pk=pk)
     elonlar = Elon.objects.filter(is_active=True, category=pk)

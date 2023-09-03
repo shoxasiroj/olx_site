@@ -1,0 +1,27 @@
+{% extends 'layout/basic.html' %}
+{% load bootstrap4 %}
+
+{% block title %} {{ user.username }} ning e`lonni qo`shish {% endblock title %}
+
+{% block content %}
+<h2>Elon o`chirish</h2>
+  <div class="container-fluid mt-3">
+    <div class="row">
+        {% if elon.image %}
+        <div class="col-md-auto"><img src="{{ elon.image.url }}" class="main-image"></div>
+        {% endif %}
+        <div class="col">
+            <h2>{{ elon.title }}</h2>
+            <p>{{ elon.content }}</p>
+            <p class="font-weight-bold">{{ elon.price }} $.</p>
+            <p>{{ elon.contacts }}</p>
+            <p class="text-right font-italic">E\lon qo'shildi {{ elon.created_at }}</p>
+        </div>
+    </div>
+</div>
+<form method="post">
+  {% csrf_token %}
+  <input type="submit" value="o`chirish">
+</form>
+{% endblock content %}
+
